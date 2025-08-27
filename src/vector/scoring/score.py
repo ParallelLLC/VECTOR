@@ -1,0 +1,63 @@
+from typing import Dict
+import pandas as pd
+import numpy as np
+from ..utils import minmax_scale
+
+def compute_issue_scores(
+    users: pd.DataFrame,
+    pagerank: Dict[str, float],
+    communities: Dict[str, int],
+    user_issue_stats: Dict[str, Dict[str, Dict[str, float]]],
+    weights: Dict[str, float],
+    epsilon: float = 1e-9,
+    min_samples_for_eng: int = 3
+) -> pd.DataFrame:
+    uid_list = [str(u) for u in users["user_id"].tolist()]
+    handle_map = {str(r["user_id"]): r["handle"] for _, r in users.iterrows()}
+    followers_map = {str(r["user_id"]): int(r.get("followers",0)) for _, r in users.iterrows()}
+
+    reach_vec = np.array([followers_map.get(uid, 0) for uid in uid_list], dtype=float)
+    centrality_vec = np.array([pagerank.get(uid, 0.0) for uid in uid_list], dtype=float)
+    reach_norm = minmax_scale(reach_vec)
+    centrality_norm = minmax_scale(centrality_vec)
+
+    issues = sorted({iss for uid in user_issue_stats for iss in user_issue_stats[uid].keys()})
+    results = []
+    for issue in issues:
+        eng_rate, salience = [], []
+        for uid in uid_list:
+            stats = user_issue_stats.get(uid, {}).get(issue, {"count":0.0, "eng_sum":0.0})
+            cnt = stats["count"]
+            eng_sum = stats["eng_sum"]
+            followers = max(1.0, float(followers_map.get(uid, 1)))
+            if cnt >= min_samples_for_eng:
+                eng_rate.append( (eng_sum / cnt) / followers )
+            else:
+                eng_rate.append( 0.0 )
+            total_issue_mentions = sum(v.get("count",0.0) for v in user_issue_stats.get(uid, {}).values())
+            sal = (cnt / (total_issue_mentions + epsilon)) if total_issue_mentions > 0 else 0.0
+            salience.append(sal)
+
+        eng_norm = minmax_scale(eng_rate)
+        sal_norm = minmax_scale(salience)
+
+        w_reach = weights.get("reach",0.35)
+        w_eng = weights.get("engagement",0.25)
+        w_cent = weights.get("centrality",0.25)
+        w_sal = weights.get("salience",0.15)
+
+        score = w_reach*reach_norm + w_eng*eng_norm + w_cent*centrality_norm + w_sal*sal_norm
+
+        for i, uid in enumerate(uid_list):
+            results.append({
+                "user_id": uid,
+                "handle": handle_map.get(uid, ""),
+                "issue": issue,
+                "reach": float(reach_norm[i]),
+                "engagement": float(eng_norm[i]),
+                "centrality": float(centrality_norm[i]),
+                "salience": float(sal_norm[i]),
+                "score": float(score[i]),
+                "community": int(communities.get(uid, -1)) if uid in communities else None
+            })
+    return pd.DataFrame(results)

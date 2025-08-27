@@ -1,0 +1,15 @@
+weights:
+  reach: 0.35
+  engagement: 0.25
+  centrality: 0.25
+  salience: 0.15
+scoring:
+  min_samples_for_engagement: 3
+  epsilon: 1e-9
+selection:
+  enforce_diversity: true
+  top_k: 25
+compliance:
+  disallow_political_persuasion: true
+  deny_keywords: ["vote for", "election", "ballot", "turnout", "register to vote"]
+  allow_geos: []

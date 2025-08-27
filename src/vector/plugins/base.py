@@ -1,0 +1,16 @@
+from __future__ import annotations
+from typing import Dict, List, Protocol
+import pandas as pd
+
+class Tagger(Protocol):
+    def tag_posts_by_issue(self, posts: pd.DataFrame, taxonomy: Dict[str, List[str]]) -> Dict[str, List[str]]: ...
+
+class Centrality(Protocol):
+    def compute(self, users: pd.DataFrame, edges: pd.DataFrame) -> Dict[str, float]: ...
+    def communities(self, users: pd.DataFrame, edges: pd.DataFrame) -> Dict[str, int]: ...
+
+class Scorer(Protocol):
+    def score(self, users: pd.DataFrame, pagerank: Dict[str,float], communities: Dict[str,int], user_issue_stats: Dict[str, Dict[str, Dict[str, float]]]) -> pd.DataFrame: ...
+
+class Selector(Protocol):
+    def select(self, scores_df: pd.DataFrame, issue: str, k: int, diverse: bool) -> pd.DataFrame: ...

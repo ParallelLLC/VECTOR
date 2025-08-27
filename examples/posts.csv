@@ -1,0 +1,8 @@
+post_id,user_id,text,likes,shares,comments,ts
+p1,1,"Cannabis policy reform has strong public health implications",15,3,2,2025-08-01
+p2,1,"Veterans' benefits must include mental health access",10,2,1,2025-08-02
+p3,2,"New study on cannabis policy outcomes in Virginia",8,1,1,2025-08-03
+p4,3,"Detailed explainer on health policy and veterans programs",40,5,3,2025-08-01
+p5,3,"Brand safety matters: avoid harmful content",30,4,2,2025-08-02
+p6,4,"Local news: veterans event this weekend",5,1,0,2025-08-04
+p7,5,"Cannabis taxation and small business impact",25,3,2,2025-08-03
