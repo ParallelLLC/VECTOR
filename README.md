@@ -1,8 +1,7 @@
 # Vector (Issue-Conditioned Discovery & Ranking)
 
-A data science & engineering pipeline to discover, score, and export influencer audiences by issue. Designed as a clear, auditable baseline for commercial and research.
+A data science & engineering pipeline to discover, score, and export influencer audiences by issue. Designed as a clear, auditable baseline for commercial and research in general marketing, R&D, and public-interest information campaigns.
 
-> ⚖️ **Use responsibly**: This template is for general marketing, research, and public-interest information campaigns.
 > It **must not** be used to target or persuade voters or specific political demographics.
 
 ## What it does
