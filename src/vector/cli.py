@@ -2,6 +2,7 @@ import json, os, yaml
 import typer
 import pandas as pd
 from datetime import date
+from typing import Dict, Any, Optional
 from . import pipeline as pl
 from .ingestion.gdelt import download_gdelt_data, load_gdelt_data
 from .ingestion.reddit import create_reddit_downloader, fetch_reddit_data, RedditProcessor, create_mock_reddit_data
@@ -17,7 +18,7 @@ def run_pipeline(
     out: str = typer.Option("./out", help="Output directory"),
     config: str = typer.Option(None, help="Path to config YAML")
 ):
-    cfg = {}
+    cfg: Dict[str, Any] = {}
     if config and os.path.exists(config):
         with open(config, "r") as f:
             cfg = yaml.safe_load(f) or {}
@@ -145,7 +146,7 @@ def fetch_reddit(
         downloader = create_reddit_downloader(client_id, client_secret)
         
         # Prepare arguments based on data type
-        kwargs = {'limit': limit}
+        kwargs: Dict[str, Any] = {'limit': limit}
         
         if data_type == 'subreddit_posts':
             if not subreddit:

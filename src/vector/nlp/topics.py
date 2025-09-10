@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Any
 import yaml
 import pandas as pd
 from collections import defaultdict
@@ -20,22 +20,21 @@ def tag_posts_by_issue(posts: pd.DataFrame, taxonomy: Dict[str, List[str]]) -> D
         idx_to_issues[str(row["post_id"])] = matched
     return idx_to_issues
 
-def compute_user_issue_stats(posts: pd.DataFrame, post_issue_map: Dict[str, List[str]]):
-    per_user = defaultdict(lambda: defaultdict(lambda: {"count":0.0, "eng_sum":0.0}))
+def compute_user_issue_stats(posts: pd.DataFrame, post_issue_map: Dict[str, List[str]]) -> Dict[str, Dict[str, Dict[str, float]]]:
+    per_user: Dict[str, Dict[str, Dict[str, float]]] = {}
     for _, row in posts.iterrows():
         uid = str(row["user_id"])
         pid = str(row["post_id"])
         issues = post_issue_map.get(pid, [])
         eng = float(row.get("likes",0) + row.get("shares",0) + row.get("comments",0))
+        
+        if uid not in per_user:
+            per_user[uid] = {}
+            
         for issue in issues:
+            if issue not in per_user[uid]:
+                per_user[uid][issue] = {"count": 0.0, "eng_sum": 0.0}
             per_user[uid][issue]["count"] += 1.0
             per_user[uid][issue]["eng_sum"] += eng
-    out = {}
-    for uid, issues in per_user.items():
-        out[uid] = {}
-        for issue, metrics in issues.items():
-            out[uid][issue] = {
-                "count": float(metrics["count"]),
-                "eng_sum": float(metrics["eng_sum"]),
-            }
-    return out
+    
+    return per_user
