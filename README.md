@@ -2,7 +2,7 @@
 
 **Issue-Conditioned Discovery & Ranking System**
 
-A production-quality pipeline to discover, score, and export influencer audiences by issue. Designed as a clear, auditable baseline for commercial and research use.
+A production-quality data science & engineering pipeline to discover, score, and export influencer audiences by issue. Designed as a clear, auditable baseline for commercial and research use.
 
 **Parallel LLC** - Production-grade influencer discovery and audience analysis.
 
@@ -11,9 +11,9 @@ A production-quality pipeline to discover, score, and export influencer audience
 - **Ingestion**: Loads user, graph edges, and posts from CSV/Parquet/JSON.
 - **Issue Tagging**: Labels posts by issue using a keyword taxonomy (YAML) and lightweight TF-IDF fallback.
 - **Graph & Signals**: Builds follower graph (NetworkX) and computes PageRank & communities.
-- **Scoring (per issue)**: Combines normalized **reach**, **engagement**, **centrality**, and **issue salience**.
+- **Scoring (per issue)**: Combines normalized reach, engagement, centrality, and issue salience.
 - **Diversity Constraint**: Optionally enforces community diversity via round-robin selection by detected communities.
-- **Audience Export**: Exports top influencer **seeds** and their reachable **audience** (followers) as CSV.
+- **Audience Export**: Exports top influencer seeds and their reachable audience (followers) as CSV.
 - **Service/CLI**: Typer CLI and FastAPI service to run and query the pipeline.
 
 ## Quickstart
@@ -115,4 +115,4 @@ Apache-2.0
 
 ---
 
-**Parallel LLC** - Professional-grade data analysis and influencer discovery solutions.
+**Parallel LLC** - Production-grade data analysis and influencer discovery solutions.
