@@ -2,13 +2,9 @@
 
 **Issue-Conditioned Discovery & Ranking System**
 
-A production-quality pipeline to **discover, score, and export influencer audiences by issue**.
-Designed as a clear, auditable baseline for commercial and research use.
+A production-quality pipeline to discover, score, and export influencer audiences by issue. Designed as a clear, auditable baseline for commercial and research use.
 
-> ⚖️ **Use responsibly**: This system is for general marketing, research, and public-interest information campaigns.
-> It **must not** be used to target or persuade voters or specific political demographics.
-
-**Parallel LLC** - Professional-grade influencer discovery and audience analysis.
+**Parallel LLC** - Production-grade influencer discovery and audience analysis.
 
 ## What it does
 
