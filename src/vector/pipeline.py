@@ -6,7 +6,7 @@ from .nlp.topics import load_taxonomy, compute_user_issue_stats
 from .compliance.policies import assert_non_political, ComplianceError
 from .config import AppConfig
 from .plugins import load_class
-from .logging import configure_logging
+from .vector_logging import configure_logging
 
 log = logging.getLogger("vector.pipeline")
 

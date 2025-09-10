@@ -1,10 +1,14 @@
-# Vector (Issue-Conditioned Discovery & Ranking)
+# Vector
 
-A minimal, production-quality pipeline to **discover, score, and export influencer audiences by issue**.
-Designed as a clear, auditable baseline for commercial and research use (not electioneering).
+**Issue-Conditioned Discovery & Ranking System**
 
-> ⚖️ **Use responsibly**: This template is for general marketing, research, and public-interest information campaigns.
+A production-quality pipeline to **discover, score, and export influencer audiences by issue**.
+Designed as a clear, auditable baseline for commercial and research use.
+
+> ⚖️ **Use responsibly**: This system is for general marketing, research, and public-interest information campaigns.
 > It **must not** be used to target or persuade voters or specific political demographics.
+
+**Parallel LLC** - Professional-grade influencer discovery and audience analysis.
 
 ## What it does
 
@@ -19,33 +23,69 @@ Designed as a clear, auditable baseline for commercial and research use (not ele
 ## Quickstart
 
 ```bash
-# 1) Create & activate a venv (recommended)
+# 1) Create & activate a virtual environment
 python -m venv .venv && source .venv/bin/activate
 
-# 2) Install
+# 2) Install Vector
 pip install -e .
 
-# 3) Run the pipeline on toy data
-python -m vector.cli run-pipeline   --users examples/users.csv   --edges examples/edges.csv   --posts examples/posts.csv   --taxonomy examples/taxonomy.yaml   --out ./out
+# 3) Run the pipeline with example data
+make run-pipeline
 
-# 4) Rank influencers for an issue with diversity constraint
-python -m vector.cli rank-issue   --issue cannabis_policy   --stateful ./out/state.json   --top-k 25   --diverse true   --out ./out/cannabis_top25.csv
+# 4) Rank influencers for an issue
+python -m vector.cli rank-issue \
+  --issue cannabis_policy \
+  --stateful outputs/state.json \
+  --top-k 25 \
+  --diverse true \
+  --out outputs/cannabis_top25.csv
 
-# 5) Export audience (followers of the selected seeds)
-python -m vector.cli export-audience   --issue cannabis_policy   --stateful ./out/state.json   --seeds ./out/cannabis_top25.csv   --edges examples/edges.csv   --out ./out/cannabis_audience.csv
+# 5) Export audience
+python -m vector.cli export-audience \
+  --issue cannabis_policy \
+  --stateful outputs/state.json \
+  --seeds outputs/cannabis_top25.csv \
+  --edges data/external/edges.csv \
+  --out outputs/cannabis_audience.csv
 
-# 6) (Optional) Serve an API
-export VECTOR_STATE_FILE=./out/state.json
-export VECTOR_EDGES_FILE=examples/edges.csv
-uvicorn vector.service:app --reload
+# 6) Start the web service
+make run-service
 ```
 
-## Data contracts
+## Development
+
+```bash
+# Install development dependencies
+make install-dev
+
+# Run tests
+make test
+
+# Format code
+make format
+
+# Run linting
+make lint
+
+# Clean build artifacts
+make clean
+```
+
+## Data Integration
+
+Vector supports multiple data sources:
+
+- **CSV/Parquet/JSON**: Traditional data files
+- **GDELT**: Global news and events data
+- **Reddit**: Social media posts and comments
+- **Custom APIs**: Extensible adapter system
+
+### Data Contracts
 
 - **users.csv**: `user_id,handle,followers,following,geo,lang,profession`
 - **edges.csv** (directed follower graph): `src_user_id,dst_user_id` (edge means *src follows dst*)
 - **posts.csv**: `post_id,user_id,text,likes,shares,comments,ts`
-- **taxonomy.yaml**: Issues → list of keywords. Example in `examples/`.
+- **taxonomy.yaml**: Issues → list of keywords. Example in `data/external/`.
 
 ## Scoring formula (per issue)
 ```
@@ -58,8 +98,25 @@ Weights configurable in `config/default.yaml`. All components are min-max scaled
 - **Brand-safety**: Basic keyword screens + allowlist/denylist hooks.
 - **Diversity**: Community-aware selection to avoid echo chambers.
 
+## Documentation
+
+- **[Project Structure](docs/PROJECT_STRUCTURE.md)**: Complete directory layout and organization
+- **[GDELT Integration](docs/guides/GDELT_USAGE.md)**: Global news data processing
+- **[Reddit Integration](docs/guides/REDDIT_USAGE.md)**: Social media data processing
+- **[Reddit Setup](docs/guides/REDDIT_SETUP.md)**: Reddit API configuration
+
 ## Dependencies
-`pandas, numpy, pydantic, pyyaml, typer, fastapi, uvicorn, scikit-learn, networkx`
+
+**Core**: `pandas, numpy, pydantic, pyyaml, typer, fastapi, uvicorn, scikit-learn, networkx`
+
+**Data Sources**: `requests, python-dateutil, praw`
+
+**Development**: `pytest, black, isort, flake8, mypy, pre-commit`
 
 ## License
+
 Apache-2.0
+
+---
+
+**Parallel LLC** - Professional-grade data analysis and influencer discovery solutions.

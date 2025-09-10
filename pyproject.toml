@@ -5,11 +5,26 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "vector"
 version = "0.1.0"
-description = "Issue-conditioned discovery & ranking system"
+description = "Issue-conditioned discovery & ranking system for influencer audience identification"
 authors = [{name = "Parallel LLC", email = "engineering@parallel.example"}]
 readme = "README.md"
 license = {text = "Apache-2.0"}
 requires-python = ">=3.9"
+keywords = ["influencer", "discovery", "ranking", "social-media", "analytics", "audience"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = [
   "pandas>=2.0.0",
   "numpy>=1.23.0",
@@ -19,7 +34,26 @@ dependencies = [
   "fastapi>=0.110.0",
   "uvicorn>=0.29.0",
   "scikit-learn>=1.3.0",
-  "networkx>=3.2.0"
+  "networkx>=3.2.0",
+  "requests>=2.31.0",
+  "python-dateutil>=2.8.0",
+  "praw>=7.7.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0.0",
+  "pytest-cov>=4.0.0",
+  "black>=23.0.0",
+  "isort>=5.12.0",
+  "flake8>=6.0.0",
+  "mypy>=1.0.0",
+  "pre-commit>=3.0.0",
+]
+docs = [
+  "sphinx>=6.0.0",
+  "sphinx-rtd-theme>=1.2.0",
+  "myst-parser>=1.0.0",
 ]
 
 [project.scripts]
