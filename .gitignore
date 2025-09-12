@@ -199,3 +199,7 @@ processed_*/
 *_output/
 *_demo_output/
 reddit_*/
+
+# Analysis and reports (proprietary)
+*_ANALYSIS.md
+*_SUMMARY.md
